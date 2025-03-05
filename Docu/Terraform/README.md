@@ -61,8 +61,3 @@ Per confirmar que Terraform s'ha instal·lat correctament, executa la següent c
 terraform --version
 ```
 Aquesta comanda hauria de mostrar la versió instal·lada de Terraform.
-
-## Conclusió
-
-Seguint aquests passos, Terraform quedarà correctament instal·lat i preparat per a la seva utilització en la gestió d'infraestructura com a codi (IaC).
-``
