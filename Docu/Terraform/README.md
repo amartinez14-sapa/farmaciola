@@ -14,7 +14,7 @@ Abans de començar, assegura't que tens accés a un usuari amb privilegis d'admi
 
 1. **Actualitzar el sistema i instal·lar les dependències**  
    ```bash
-   sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
+   sudo apt update && sudo apt install -y gnupg software-properties-common
    ```
    Aquesta comanda garanteix que el sistema estigui actualitzat i instal·la les eines necessàries per gestionar claus GPG i repositoris.
 
@@ -50,7 +50,7 @@ Abans de començar, assegura't que tens accés a un usuari amb privilegis d'admi
 
 6. **Instal·lar Terraform**  
    ```bash
-   sudo apt-get install terraform
+   sudo apt install terraform
    ```
    Aquesta comanda instal·la Terraform al sistema.
 
