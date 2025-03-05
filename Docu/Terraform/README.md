@@ -1,50 +1,10 @@
-# Instal·lació de Terraform Client a Ubuntu/Debian
+# Instal·lació de Terraform Client a Ubuntu
 
-Aquesta guia proporciona els passos necessaris per instal·lar Terraform Client en un sistema Ubuntu/Debian. Aquesta instal·lació es realitza a través dels repositoris oficials de HashiCorp.
+Aquesta guia proporciona els passos necessaris per instal·lar Terraform Client en un sistema Ubuntu i inclou un exemple de configuració per a Proxmox.
 
-## Prerequisits
+# Instal·lació de Terraform Client a Ubuntu
 
-Abans de començar, assegura't que tens accés a un usuari amb privilegis d'administrador i que el sistema estigui actualitzat.
-
-## Passos d'instal·lació
-
-1. **Actualitzar el sistema i instal·lar dependències**  
-   ```bash
-   sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
-   ```
-   Aquesta comanda assegura que el sistema estigui actualitzat i instal·la les eines necessàries per gestionar repositoris i claus GPG.
-
-2. **Afegir la clau GPG de HashiCorp**  
-   ```bash
-   curl -fsSL https://apt.releases.hashicorp.com/gpg | \
-   sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-   ```
-   Aquesta comanda descarrega la clau GPG de HashiCorp, la converteix al format adequat i l'emmagatzema al sistema.
-
-3. **Afegir el repositori de HashiCorp**  
-   ```bash
-   echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
-   https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
-   sudo tee /etc/apt/sources.list.d/hashicorp.list
-   ```
-   Aquest pas afegeix el repositori oficial de HashiCorp a la llista de repositoris del sistema.
-
-4. **Actualitzar els paquets del sistema**  
-   ```bash
-   sudo apt update
-   ```
-   Això assegura que el sistema reconeix el nou repositori i carrega les últimes versions disponibles.
-
-5. **Instal·lar Terraform**  
-   ```bash
-   sudo apt-get install terraform
-   ```
-   Finalment, aquesta comanda instal·la Terraform al sistema.
-
-## Verificació de la instal·lació
-
-Per confirmar que Terraform s'ha instal·lat correctament, executa la següent comanda:
-```bash
+Aquesta guia proporciona els passos necessaris per instal·lar Terraform Client en un sistema Ubuntu.
 
 ## Requisits previs
 
@@ -101,3 +61,69 @@ Per confirmar que Terraform s'ha instal·lat correctament, executa la següent c
 terraform --version
 ```
 Aquesta comanda hauria de mostrar la versió instal·lada de Terraform.
+
+## Exemple de configuració de Terraform per a Proxmox
+
+Un cop instal·lat Terraform, pots crear un fitxer anomenat `main.tf` (o el nom que prefereixis) amb el contingut següent per gestionar **contenidors LXC** a Proxmox:
+
+```hcl
+terraform {
+  required_providers {
+    proxmox = {
+      source  = "telmate/proxmox"
+      version = "2.9.14"
+    }
+  }
+}
+
+provider "proxmox" {
+  pm_api_url          = "https://pve1.almaru.es:8006/api2/json"
+  pm_api_token_id     = "tf_user@pve!terraform"
+  pm_api_token_secret = "b2443db6-4c99-4c2f-b2c4-cc62689522f5"
+  pm_tls_insecure     = true
+}
+
+resource "proxmox_lxc" "test_server" {
+  count    = 3
+  hostname = "mytest-${count.index + 1}"
+  vmid     = count.index + 4001
+  target_node = "pv1"
+  ostemplate  = "local:vztmpl/debian-12-standard_12.7-1_amd64.tar.zst"
+  unprivileged = true
+
+  cores  = 2
+  memory = 4096
+
+  rootfs {
+    storage = "Datos"
+    size    = "16G"
+  }
+
+  network {
+    name   = "eth0"
+    bridge = "vmbr0"
+    ip     = "192.168.1.${count.index + 200}/24"
+    gw     = "192.168.1.1"
+  }
+
+  start = true
+
+  # Afegir la clau SSH al contenidor
+  ssh_public_keys = file("~/.ssh/id_rsa.pub")
+}
+```
+
+Després de guardar aquest fitxer, executa:
+
+```bash
+terraform init
+terraform plan
+terraform apply
+```
+
+Això **inicialitzarà** el directori de treball, comprovarà si hi ha canvis respecte al teu entorn i, finalment, desplegarà els recursos indicats a Proxmox.
+
+## Conclusió
+
+Seguint aquests passos, Terraform quedarà correctament instal·lat i preparat per a la seva utilització en la gestió d'infraestructura com a codi (IaC). A més, amb l'exemple de fitxer `main.tf`, podràs gestionar contenidors LXC al teu entorn Proxmox de manera eficaç.
+``
