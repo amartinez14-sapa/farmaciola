@@ -2,7 +2,6 @@
 
 Aquesta guia proporciona els passos necessaris per instal·lar Terraform Client en un sistema Ubuntu.
 
-```markdown
 # Instal·lació de Terraform Client a Ubuntu
 
 Aquesta guia proporciona els passos necessaris per instal·lar Terraform Client en un sistema Ubuntu.
