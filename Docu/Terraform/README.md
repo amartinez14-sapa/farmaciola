@@ -122,8 +122,3 @@ terraform apply
 ```
 
 Això **inicialitzarà** el directori de treball, comprovarà si hi ha canvis respecte al teu entorn i, finalment, desplegarà els recursos indicats a Proxmox.
-
-## Conclusió
-
-Seguint aquests passos, Terraform quedarà correctament instal·lat i preparat per a la seva utilització en la gestió d'infraestructura com a codi (IaC). A més, amb l'exemple de fitxer `main.tf`, podràs gestionar contenidors LXC al teu entorn Proxmox de manera eficaç.
-``
