@@ -1,22 +1,22 @@
-# Instal·lació de Terraform Client a Ubuntu
+# Instal·lació de Terraform Client en Ubuntu
 
-Aquesta guia proporciona els passos necessaris per instal·lar Terraform Client en un sistema Ubuntu i inclou un exemple de configuració per a Proxmox.
+Aquesta guia ofereix els passos necessaris per instal·lar Terraform Client en un sistema Ubuntu, incloent-hi un exemple de configuració per a Proxmox.
 
-# Instal·lació de Terraform Client a Ubuntu
+# Instal·lació del Client Terraform en Ubuntu
 
-Aquesta guia proporciona els passos necessaris per instal·lar Terraform Client en un sistema Ubuntu.
+Aquesta guia proporciona les instruccions per instal·lar Terraform Client en un sistema Ubuntu.
 
 ## Requisits previs
 
-Abans de començar, assegura't que tens accés a un usuari amb privilegis d'administrador i que el sistema estigui actualitzat.
+Abans de començar, assegura't que tens accés a un usuari amb privilegis d'administrador i que el sistema està actualitzat.
 
 ## Passos d'instal·lació
 
-1. **Actualitzar el sistema i instal·lar dependències**  
+1. **Actualitzar el sistema i instal·lar les dependències**  
    ```bash
    sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
    ```
-   Aquesta comanda assegura que el sistema estigui actualitzat i instal·la les eines necessàries per gestionar repositoris i claus GPG.
+   Aquesta comanda garanteix que el sistema estigui actualitzat i instal·la les eines necessàries per gestionar claus GPG i repositoris.
 
 2. **Afegir la clau GPG de HashiCorp**  
    ```bash
@@ -24,7 +24,7 @@ Abans de començar, assegura't que tens accés a un usuari amb privilegis d'admi
    gpg --dearmor | \
    sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
    ```
-   Aquesta comanda descarrega la clau GPG de HashiCorp, la converteix al format adequat i l'emmagatzema al sistema.
+   Aquesta comanda descarrega la clau GPG de HashiCorp, la converteix al format adequat i la desa al sistema.
 
 3. **Verificar la clau GPG**  
    ```bash
@@ -32,7 +32,7 @@ Abans de començar, assegura't que tens accés a un usuari amb privilegis d'admi
    --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg \
    --fingerprint
    ```
-   Amb aquesta comanda es pot verificar que la clau s'ha afegit correctament al sistema.
+   Amb aquesta comanda es pot verificar que la clau s'ha afegit correctament.
 
 4. **Afegir el repositori de HashiCorp**  
    ```bash
@@ -40,23 +40,23 @@ Abans de començar, assegura't que tens accés a un usuari amb privilegis d'admi
    https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
    sudo tee /etc/apt/sources.list.d/hashicorp.list
    ```
-   Aquest pas afegeix el repositori oficial de HashiCorp a la llista de repositoris del sistema.
+   Això afegeix el repositori oficial de HashiCorp a la llista de repositoris del sistema.
 
 5. **Actualitzar els paquets del sistema**  
    ```bash
    sudo apt update
    ```
-   Això assegura que el sistema reconeix el nou repositori i carrega les últimes versions disponibles.
+   Aquesta comanda assegura que el sistema reconeix el nou repositori i descarrega les darreres versions disponibles.
 
 6. **Instal·lar Terraform**  
    ```bash
    sudo apt-get install terraform
    ```
-   Finalment, aquesta comanda instal·la Terraform al sistema.
+   Aquesta comanda instal·la Terraform al sistema.
 
 ## Verificació de la instal·lació
 
-Per confirmar que Terraform s'ha instal·lat correctament, executa la següent comanda:
+Per comprovar que Terraform s'ha instal·lat correctament, executa la següent comanda:
 ```bash
 terraform --version
 ```
@@ -64,7 +64,7 @@ Aquesta comanda hauria de mostrar la versió instal·lada de Terraform.
 
 ## Exemple de configuració de Terraform per a Proxmox
 
-Un cop instal·lat Terraform, pots crear un fitxer anomenat `main.tf` amb el contingut següent per gestionar **contenidors LXC** a Proxmox:
+Un cop instal·lat Terraform, pots crear un fitxer anomenat `main.tf` amb el següent contingut per gestionar **contenidors LXC** a Proxmox:
 
 ```hcl
 terraform {
@@ -113,7 +113,7 @@ resource "proxmox_lxc" "test_server" {
 }
 ```
 
-Després de guardar aquest fitxer, executa:
+Després de desar aquest fitxer, executa:
 
 ```bash
 terraform init
@@ -121,4 +121,4 @@ terraform plan
 terraform apply
 ```
 
-Això **inicialitzarà** el directori de treball, comprovarà si hi ha canvis respecte al teu entorn i, finalment, desplegarà els recursos indicats a Proxmox.
+Això **inicialitzarà** el directori de treball, validarà si hi ha canvis respecte a la teva configuració i, finalment, desplegarà els recursos a Proxmox.
