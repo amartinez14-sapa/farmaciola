@@ -64,7 +64,7 @@ Aquesta comanda hauria de mostrar la versió instal·lada de Terraform.
 
 ## Exemple de configuració de Terraform per a Proxmox
 
-Un cop instal·lat Terraform, pots crear un fitxer anomenat `main.tf` (o el nom que prefereixis) amb el contingut següent per gestionar **contenidors LXC** a Proxmox:
+Un cop instal·lat Terraform, pots crear un fitxer anomenat `main.tf` amb el contingut següent per gestionar **contenidors LXC** a Proxmox:
 
 ```hcl
 terraform {
